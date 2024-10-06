@@ -3,25 +3,49 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --radius: 6px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  :focus-visible {
+    @apply outline-none ring-2 ring-primary-400  ring-inset;
   }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  .link {
+    @apply border-b border-transparent  hover:border-b-primary-500 hover:text-primary-500 transition duration-300;
+  }
 }
 
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .container {
+    @apply max-w-[1012px] mx-auto;
   }
+
+  .container-xl {
+    @apply max-w-[1280px] mx-auto;
+  }
+
+  .btn {
+    @apply px-4 py-1.5 bg-primary-500 hover:bg-primary-600 text-sm text-neutral-50 rounded-lg w-full block text-center transition-all duration-200 capitalize font-medium;
+  }
+}
+
+@layer components {
+  .tool-tip[data-tip]::after {
+    content: attr(data-tip);
+    @apply block text-xs opacity-0 invisible top-full mt-2 absolute text-white w-max bg-neutral-700 rounded-md p-2 transition-all duration-150 z-[999];
+  }
+
+  .tool-tip[data-tip]:hover::after {
+    content: attr(data-tip);
+    @apply visible opacity-100;
+  }
+}
+
+.center-tip::after {
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.right-tip::after {
+  right: 33.33%;
 }
