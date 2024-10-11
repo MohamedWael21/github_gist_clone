@@ -19,7 +19,7 @@ export interface IUser {
 export type CreateIUser = Omit<IUser, "joinOn" | "starred">;
 
 export interface IGist {
-  name: string;
+  previewFile: Types.ObjectId;
   author: Types.ObjectId;
   description?: string;
   stars: Types.ObjectId[];
@@ -36,7 +36,7 @@ export interface IFile {
 
 export type CreateIGist = Omit<
   IGist,
-  "stars" | "starred" | "createdAt" | "updatedAt"
+  "stars" | "starred" | "createdAt" | "updatedAt" | "previewFile"
 > & {
   files: Omit<IFile, "gist">[];
 };
@@ -50,3 +50,14 @@ export interface IComment {
 }
 
 export type AddObjectId<T> = T & { _id: Types.ObjectId };
+
+export type IGistPopulated = AddObjectId<
+  Omit<IGist, "author" | "previewFile"> & {
+    author: AddObjectId<IUser>;
+  } & {
+    previewFile: Omit<IFile, "gist"> & { gist: string; _id: string };
+  } & {
+    comments: number;
+    files: number;
+  }
+>;

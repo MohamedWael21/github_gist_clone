@@ -8,7 +8,11 @@ import { shortenText } from "@/lib/helpers";
 
 export default async function Home() {
   const user = await requireUser("/starred");
-  const result = await getUserGists({ author: user._id, pageSize: 4 });
+  const result = await getUserGists({
+    author: user._id,
+    pageSize: 4,
+    sortOptions: { createdAt: "desc" },
+  });
 
   if (!result) return null;
   const { gists } = result;
@@ -37,7 +41,7 @@ export default async function Home() {
                         href={`/${user.username}/${gist._id}`}
                         className="text-sm font-bold text-primary-600"
                       >
-                        {gist.name}
+                        {gist.previewFile.name}
                       </Link>
                       <span className="text-neutral-500 text-xs group-hover:underline group-hover:decoration-2 group-hover:decoration-primary-600  cursor-pointer">
                         {shortenText(gist.description || "No description", 16)}
@@ -47,7 +51,7 @@ export default async function Home() {
                 ))}
               </ul>
               <Link
-                className="btn lg:text-primary-600 lg:text-right lg:bg-transparent lg:hover:underline lg:hover:bg-transparent lg:decoration-2 lg:p-0 lg:flex lg:justify-end lg:items-center lg:w-fit  lg:border-transparent lg:rounded-none lg:font-bold"
+                className="btn lg:text-primary-600 block lg:text-right lg:bg-transparent lg:hover:underline lg:hover:bg-transparent lg:decoration-2 lg:p-0 lg:flex lg:justify-end lg:items-center lg:w-fit  lg:border-transparent lg:rounded-none lg:font-bold"
                 href={`/${user.username}`}
               >
                 View your gists

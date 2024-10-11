@@ -13,7 +13,6 @@ export async function createGist(gist: CreateIGist) {
 
   try {
     const newGist = new Gist({
-      name: gist.name,
       author: gist.author,
       description: gist.description,
     });
@@ -27,7 +26,11 @@ export async function createGist(gist: CreateIGist) {
       content: file.content,
     }));
 
-    await File.create(createdFiles, { session });
+    const createdFilesDoc = await File.create(createdFiles, { session });
+
+    newGist.previewFile = createdFilesDoc[0]._id;
+
+    await newGist.save();
 
     const user = await User.findById(gist.author)
       .select("username")
@@ -37,7 +40,6 @@ export async function createGist(gist: CreateIGist) {
 
     return { error: "", redirectPath: `/${user?.username}/${newGist._id}` };
   } catch (error) {
-    console.log("entered");
     console.log(error);
     await session.abortTransaction();
     return { error: "Failed to create gist", redirectPath: "" };

@@ -4,7 +4,7 @@ import { IGist } from "@/types/models";
 
 const gistSchema = new Schema<IGist>(
   {
-    name: { type: String, required: true },
+    previewFile: { type: Schema.Types.ObjectId, ref: "File" },
     author: { type: Schema.Types.ObjectId, ref: "User", required: true },
     description: { type: String },
     stars: [{ type: Schema.Types.ObjectId, ref: "User" }],
@@ -14,7 +14,6 @@ const gistSchema = new Schema<IGist>(
     toObject: {
       transform: (doc, ret) => {
         ret._id = doc._id.toString();
-        ret.author = doc.author.toString();
         return ret;
       },
     },

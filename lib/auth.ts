@@ -2,7 +2,7 @@ import { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth/next";
-import { createUser, getUserByGithubId } from "./actions/user.actions";
+import { createUser, getUser } from "./actions/user.actions";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -44,7 +44,7 @@ export async function getSession() {
 export async function getCurrentUser() {
   const session = await getSession();
   if (!session) return undefined;
-  const user = await getUserByGithubId(session.user.id);
+  const user = await getUser({ id: session.user.id });
   return user;
 }
 export async function requireUser(redirectTo?: string) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { getUserByGithubId } from "@/lib/actions/user.actions";
+import { getUser } from "@/lib/actions/user.actions";
 import { AddObjectId, IUser } from "@/types/models";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -16,7 +16,7 @@ const useUser = () => {
     const fetchUserInfo = async (): Promise<void> => {
       try {
         if (!session?.user.id) return;
-        const user = await getUserByGithubId(session.user.id);
+        const user = await getUser({ id: session.user.id });
         if (user) {
           setUser(user);
           setIsAuth(true);

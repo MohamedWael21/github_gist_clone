@@ -1,3 +1,5 @@
+import { SortOption } from "@/types/utils";
+
 export const footerLinks = [
   {
     href: "https://docs.github.com/site-policy/github-terms/github-terms-of-service",
@@ -63,3 +65,28 @@ export const extensionToLanguageMap: { [key: string]: string } = {
   json: "json",
   html: "html",
 };
+
+export const gistSortOptions: SortOption[] = [
+  {
+    direction: "desc",
+    sortType: "created",
+    sortTitle: "Recently Created",
+  },
+  {
+    direction: "asc",
+    sortType: "created",
+    sortTitle: "Least recently Created",
+  },
+  {
+    direction: "desc",
+    sortType: "updated",
+    sortTitle: "Recently updated",
+  },
+  {
+    direction: "asc",
+    sortType: "updated",
+    sortTitle: "Least Recently updated",
+  },
+];
+
+export const PROFILE_PAGE_SIZE = 2;

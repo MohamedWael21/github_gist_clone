@@ -87,10 +87,7 @@ const AddGistForm = ({ authorId }: Props) => {
       content,
     }));
 
-    const name = codeEditors[0].fileName; // make first file name the name of the gist
-
     const { error: createGistError, redirectPath } = await createGist({
-      name,
       author: authorId,
       description: description,
       files,
@@ -142,8 +139,9 @@ const AddGistForm = ({ authorId }: Props) => {
         </button>
         <input
           type="submit"
+          disabled={isSubmitting}
           value={isSubmitting ? "Creating..." : "Create Gist"}
-          className="px-4 py-[5px] text-white bg-primary-500 hover:bg-primary-600 rounded-lg text-sm cursor-pointer font-medium hover:shadow-sm shadow-lg"
+          className="px-4 py-[5px] text-white bg-primary-500 disabled:bg-primary-800 hover:bg-primary-600 rounded-lg text-sm cursor-pointer font-medium hover:shadow-sm shadow-lg"
         />
       </div>
     </form>

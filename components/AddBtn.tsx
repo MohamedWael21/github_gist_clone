@@ -1,12 +1,15 @@
+"use client";
 import { getClassOfPositionTip } from "@/lib/helpers";
 import { PositionTip } from "@/types/unions";
 import clsx from "clsx";
+import { useRouter } from "next/navigation";
 import { GoPlus } from "react-icons/go";
 
 interface Props {
   positionTip?: PositionTip;
 }
 const AddBtn = ({ positionTip = "center" }: Props) => {
+  const router = useRouter();
   return (
     <button
       className={clsx(
@@ -14,6 +17,7 @@ const AddBtn = ({ positionTip = "center" }: Props) => {
         getClassOfPositionTip(positionTip)
       )}
       data-tip="Create new gist"
+      onClick={() => router.push("/")}
     >
       <GoPlus />
     </button>

@@ -1,3 +1,4 @@
+"use client";
 import { Oval } from "react-loader-spinner";
 
 interface Props {
@@ -25,6 +26,7 @@ const Spinner = ({ size = "small" }: Props) => {
       height={height}
       color="#2980b9"
       secondaryColor="#8fc5ea"
+      wrapperClass="justify-center h-full items-center"
     />
   );
 };

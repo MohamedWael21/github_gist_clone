@@ -1,9 +1,9 @@
-import Link from "next/link";
-import { LuSquareCode } from "react-icons/lu";
-import { FaRegStar } from "react-icons/fa";
-import { Tab, Tabs } from "@/components/Tabs";
-
+import { redirect } from "next/navigation";
 import ProfileHeader from "@/components/ProfileHeader";
+import Filter from "@/components/Filter";
+import { gistSortOptions } from "@/constants";
+import ProfileTabs from "@/components/ProfileTabs";
+import { getUser, getUserGistsByUsername } from "@/lib/actions/user.actions";
 
 export default async function ProfileLayout({
   children,
@@ -12,43 +12,32 @@ export default async function ProfileLayout({
   children: React.ReactNode;
   params: { username: string };
 }>) {
+  const user = await getUser({ username: params.username });
+  const result = await getUserGistsByUsername({
+    username: params.username,
+    sortOptions: { createdAt: "desc" },
+  });
+
+  if (!result || !user) redirect("/discover");
+
+  const { totalGists } = result;
+
   return (
     <section className="container-xl px-4 md:px-6 lg:px-8 mt-6">
       <div className="lg:grid lg:grid-cols-12 flex flex-col gap-10 lg:gap-4">
         <div className="lg:col-span-3">
-          <ProfileHeader />
+          <ProfileHeader user={user} />
         </div>
         <div className="lg:col-span-9">
-          <div>
-            <Tabs defaultTab="gists">
-              <Tab value="gists">
-                <Link
-                  href={`/${params.username}`}
-                  className="flex gap-2 items-center cursor-pointer"
-                >
-                  <LuSquareCode />
-                  <span>All gists</span>
-                  <span className="px-1.5 py-0.5 rounded-3xl text-xs  bg-primary-200 text-neutral-800 text-center">
-                    11
-                  </span>
-                </Link>
-              </Tab>
-
-              <Tab value="starred">
-                <Link
-                  href={`/${params.username}/starred`}
-                  className="flex gap-2 items-center cursor-pointer"
-                >
-                  <FaRegStar />
-                  <span className="">Starred</span>
-                  <span className="px-1.5 py-0.5 flex items-center justify-center rounded-3xl text-xs   bg-primary-200 text-neutral-800 ">
-                    5
-                  </span>
-                </Link>
-              </Tab>
-            </Tabs>
+          <div className="mb-6 relative">
+            <ProfileTabs
+              username={params.username}
+              starredCount={user.starred.length}
+              gistsCount={totalGists}
+            />
+            <Filter sortOptions={gistSortOptions} />
           </div>
-          {children}
+          <div className="space-y-7">{children}</div>
         </div>
       </div>
     </section>

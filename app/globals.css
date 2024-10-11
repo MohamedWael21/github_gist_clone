@@ -25,7 +25,7 @@
   }
 
   .btn {
-    @apply px-4 py-1.5 bg-primary-500 hover:bg-primary-600 text-sm text-neutral-50 rounded-lg w-full block text-center transition-all duration-200 capitalize font-medium;
+    @apply px-4 py-1.5 bg-primary-500 hover:bg-primary-600 text-sm text-neutral-50 rounded-lg w-full  text-center transition-all duration-200 capitalize font-medium;
   }
 }
 
@@ -48,4 +48,8 @@
 
 .right-tip::after {
   right: 33.33%;
+}
+
+.disable-editor .monaco-editor .cursors-layer > .cursor {
+  display: none !important;
 }
